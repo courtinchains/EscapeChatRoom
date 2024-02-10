@@ -1,0 +1,232 @@
+<html>
+	<head>
+		<title> ESC ChatRoom</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<link rel="icon" type="icon" href="favicon.ico">
+	</head>
+	
+<body>
+
+<div id="memechat"></div> 
+<div id="header">
+  <div class="container">
+      <nav>
+          <img src="https://escrooms.co.za/wp-content/uploads/2022/06/Esc-Rooms-Logo-Web-png-1.png" class="logo">
+<br>
+<br>
+<div id="holder">
+	<form id="messageForm">
+						
+
+			<input type="text" id="messageInput" placeholder="Type..."/>
+			<button type="submit"  id="btn" onclick="hidel()"> Send </button>
+
+	</form>
+	
+	<div class="chat" id="chat" style="overflow-y:scroll; height:450px;">
+
+	
+<div id="messageBox">
+
+</div>
+</div>
+
+	
+	
+	</div>
+<button type="submit"  id="btn1" onclick="showl()"> </button>
+<div id="people" style="overflow-y:scroll; height:450px;">
+</body>
+
+
+
+
+
+
+<script>
+var socket = io.connect();  //connects to socket
+
+$(function(){
+var $people = $("#people");
+
+var $messageForm = $("#messageForm"); //ref to the div message form
+var $messageInput = $("#messageInput"); //ref to input box with id message
+var $chat = $("#chat"); //ref to div chat
+
+$messageForm.submit(function(e){
+e.preventDefault();
+socket.emit("send message", $messageInput.val());
+$messageInput.val("");
+
+
+});
+socket.on("new message", function(data){
+
+
+if(data.msg.length > 0){
+$chat.append('<br>'   + '<textarea id="t" readonly>' + data.msg + '</textarea>'+' </div>' + '<br>' );
+
+}
+});
+
+socket.on("new memer", function(data){
+
+$people.append('<br>'   + ' </div>' + '<br>' );
+
+});
+
+socket.on("member left", function(data){
+ 
+
+
+  
+
+});
+});
+
+
+
+showlog = false;
+window.setInterval(function() {
+if(showlog == false){
+  var chat = document.getElementById("chat");
+  chat.scrollTop = chat.scrollHeight;
+  
+  var people = document.getElementById("people");
+  people.scrollTop = people.scrollHeight;
+  }
+}, 4);
+
+function showl(){
+showlog = true;
+
+}
+function hidel(){
+var chat = document.getElementById("chat");
+  chat.scrollTop = chat.scrollHeight;
+  var people = document.getElementById("people");
+  people.scrollTop = people.scrollHeight;
+showlog = false;
+}
+
+
+
+
+  
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<style>
+
+body{ 
+    width: 100%;
+    height: 33vh;
+    background-image: url("https://png.pngtree.com/background/20220726/original/pngtree-vector-labyrinth-maze-game-illustration-picture-image_1792322.jpg");
+    background-size:auto;
+    background-blend-mode: darken;
+    background-position: center;
+    
+    
+
+}
+.logo{ 
+    width: 150px;
+    margin-left: 20px;
+    margin-top: -155px;
+}
+#p{
+margin-top:9px;
+}
+
+#pr{
+font-size:12px;
+margin-top:-34px;
+margin-left: 82px;
+}
+#memechat{
+background-color:#000;
+font-family:'Times New Roman', Times, serif;
+color:white;
+font-size: 30px;
+text-align:center;
+border: 2px solid white;
+border-radius:15px;
+width:190px;
+height:160px;
+
+}
+
+#btn{
+background-color: white;
+font-size:15px;
+font-family: 'Times New Roman', Times, serif;
+color:#000;
+width:56px;
+height:51px;
+text-align: center;
+margin-left:0px;
+border-radius:10px;
+outline:none;
+border: 2px solid #800000;
+
+}
+
+#messageInput{
+margin-left: 532px;
+text-align:center;
+border-radius:10px;
+outline:none;
+text-shadow:none;
+font-size:15px;
+font-family: 'Times New Roman', Times, serif;
+color:black;
+width:250px;
+height: 50px;
+}
+
+
+#t {
+text-align:left;
+font-size:15px;
+font-family: 'Times New Roman', Times, serif;
+color:black;
+border: 2px solid #f1c40f;
+  margin-top: -5px;
+  margin-left: 72px;
+  width:200px;
+  height:90px;
+  background-color:white;
+  border-radius:12px;
+  resize: none;
+      outline: none;
+
+}
+#chat{
+
+border: 6px solid white;
+width:700px;
+background-color:#800000;
+margin:auto;
+border-radius: 10px;
+margin-left:300px;
+}
+
+::-webkit-scrollbar { 
+	display: none;
+}
+
+
+</style>
+
+</html>	
